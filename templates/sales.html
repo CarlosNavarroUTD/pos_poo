@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punto de Venta</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ url_for('static', filename='js/pointofsale.js') }}"></script>
+</head>
+<body>
+    <h1>Punto de Venta</h1>
+
+    <label for="busqueda">Buscar por código de barras:</label>
+    <input type="text" id="busqueda" name="busqueda">
+
+    <h2>Tabla de Productos</h2>
+
+    <table id="tablaProductos" border="1">
+        <thead>
+            <tr>
+                <th>Barcode</th>
+                <th>Name Product</th>
+                <th>Precio por Unidad</th>
+                <th>Precio Mayoreo</th>
+                <th>Cantidad Unidades</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se agregarán las filas dinámicamente -->
+        </tbody>
+    </table>
+
+    <div id="totalVenta">Total de la Venta: $0.00</div>
+
+    <button id="btnProcesarVenta">Procesar Venta</button>
+</body>
+</html>
