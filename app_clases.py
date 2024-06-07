@@ -86,5 +86,45 @@ def addProduct():
 
     return render_template('index1.html')
 
+
+@app.route('/getall_frombarcode', methods=['GET'])
+def getall_frombarcode():
+    term = request.args.get('selectedItem')
+    db = DataBase('AxolBD.db')
+    db.conectar()
+    try:
+        # Convertir el término a string (en lugar de int) ya que puede contener caracteres no numéricos
+        term = str(term)
+
+        # Consultar la base de datos
+        db.cursor.execute("SELECT * FROM productos WHERE Barcode = ?", (term,))
+        resultados = db.cursor.fetchall()
+
+        # Formatear los resultados para que tengan propiedades necesarias
+        formatted_results = [
+            {
+                "Barcode": item[1],
+                "name_product": item[2],
+                "cantidad_cajas": item[3],
+                "precio_por_unidad": item[4],
+                "precio_mayoreo": item[5],
+                "tipo_de_producto": item[6],
+                "marca": item[7],
+                "unidades_por_caja": item[8],
+                "cantidad_unidades": item[9]
+            }
+            for item in resultados
+        ]
+
+        return jsonify(formatted_results)
+    except Exception as e:
+        error2 = f"Error Type: {type(e).__name__}"
+        error = f"Error Details: {e}"
+        print(f"Term: {term}")
+        return jsonify({'error': f'Ocurrió un error en la consulta, {error2}: {error}, Term: {term}'})
+    finally:
+        # No es necesario cerrar el cursor aquí, ya que se mantiene abierto mientras la conexión esté activa
+        pass
+
 if __name__ == '__main__':
     app.run(debug=True)
